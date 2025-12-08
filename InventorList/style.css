@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    
+}
+
+/* .circle-image {
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  object-fit: cover;
+
+} */
+.square-image{
+  width: 200px;
+  height: 190px;
+  border-radius: 3px solid black;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+
+.info-box {
+    border: 2px solid black;
+    padding: 15px;
+    width: 400px;
+    min-height: 150px;
+    background: lab(54.76% 44.46 8.67);
+}
