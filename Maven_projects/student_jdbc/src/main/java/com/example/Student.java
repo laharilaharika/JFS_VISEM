@@ -1,13 +1,13 @@
 package com.example;
 
 public class Student {
+
     private int id;
     private String name;
     private int sem;
     private String dept;
 
-    // Constructors
-    public Student() {}
+    public Student() { }
 
     public Student(String name, int sem, String dept) {
         this.name = name;
@@ -15,7 +15,7 @@ public class Student {
         this.dept = dept;
     }
 
-    // Getters and setters
+    // Getters & Setters
     public int getId() { 
         return id; 
     }
@@ -46,6 +46,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [id=" + id + ", name=" + name + ", sem=" + sem + ", dept=" + dept + "]";
+        return "Student{id=" + id + ", name='" + name + "', sem=" + sem + ", dept='" + dept + "'}";
     }
 }
