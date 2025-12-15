@@ -12,11 +12,12 @@ public class App {
 
             System.out.println("\n===== STUDENT MENU =====");
             System.out.println("1. Insert Student");
-            System.out.println("2. View Students");
-            System.out.println("3. Update Student");
-            System.out.println("4. Delete Student");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice: ");
+     System.out.println("2. View Students");
+     System.out.println("3. Update Student");
+     System.out.println("4. Delete Student");
+     System.out.println("5. Branch-wise Count");
+            System.out.println("6. Exit");
+System.out.print("Enter your choice: ");
 
             int choice = sc.nextInt();
 
@@ -83,7 +84,14 @@ public class App {
                         break;
 
                     // Exit
-                    case 5:
+case 5: // BRANCH-WISE COUNT
+        Map<String, Integer> map = dao.getBranchWiseCount();
+        System.out.println("\n--- Branch Wise Student Count ---");
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+        break;
+                    case 6:
                         System.out.println("Exiting...");
                         System.exit(0);
 

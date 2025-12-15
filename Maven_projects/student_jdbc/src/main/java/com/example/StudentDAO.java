@@ -1,8 +1,7 @@
 package com.example;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class StudentDAO {
 
@@ -10,13 +9,13 @@ public class StudentDAO {
     private static final String USER = "root";
     private static final String PASSWORD = "root";
 
-    // Get Connection
+    // Get connection
     private Connection getConnection() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    // Insert Student
+    // Insert student
     public int addStudent(Student s) throws Exception {
         Connection conn = getConnection();
         String sql = "INSERT INTO student (name, sem, dept) VALUES (?, ?, ?)";
@@ -27,44 +26,35 @@ public class StudentDAO {
         stmt.setString(3, s.getDept());
 
         int rows = stmt.executeUpdate();
+        stmt.close();
         conn.close();
         return rows;
     }
 
-    // Get All Students
+    // Fetch all students
     public List<Student> getAllStudents() throws Exception {
         Connection conn = getConnection();
+        String sql = "SELECT * FROM student";
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM student");
+        ResultSet rs = stmt.executeQuery(sql);
 
         List<Student> list = new ArrayList<>();
-
         while (rs.next()) {
-            Student st = new Student();
-            st.setId(rs.getInt("id"));
-            st.setName(rs.getString("name"));
-            st.setSem(rs.getInt("sem"));
-            st.setDept(rs.getString("dept"));
-            list.add(st);
+            Student s = new Student();
+            s.setId(rs.getInt("id"));
+            s.setName(rs.getString("name"));
+            s.setSem(rs.getInt("sem"));
+            s.setDept(rs.getString("dept"));
+            list.add(s);
         }
 
+        rs.close();
+        stmt.close();
         conn.close();
         return list;
     }
 
-    // Delete Student
-    public int deleteStudent(int id) throws Exception {
-        Connection conn = getConnection();
-        String sql = "DELETE FROM student WHERE id=?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, id);
-
-        int rows = stmt.executeUpdate();
-        conn.close();
-        return rows;
-    }
-
-    // Update Student
+    // Update student
     public int updateStudent(Student s) throws Exception {
         Connection conn = getConnection();
         String sql = "UPDATE student SET name=?, sem=?, dept=? WHERE id=?";
@@ -76,11 +66,25 @@ public class StudentDAO {
         stmt.setInt(4, s.getId());
 
         int rows = stmt.executeUpdate();
+        stmt.close();
         conn.close();
         return rows;
     }
 
-    // Check if Student Exists
+    // Delete student
+    public int deleteStudent(int id) throws Exception {
+        Connection conn = getConnection();
+        String sql = "DELETE FROM student WHERE id=?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+
+        stmt.setInt(1, id);
+        int rows = stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+        return rows;
+    }
+
+    // Check if student exists
     public boolean exists(int id) throws Exception {
         Connection conn = getConnection();
         String sql = "SELECT id FROM student WHERE id=?";
@@ -90,7 +94,28 @@ public class StudentDAO {
         ResultSet rs = stmt.executeQuery();
 
         boolean found = rs.next();
+
+        rs.close();
+        stmt.close();
         conn.close();
         return found;
+    }
+
+    // Branch-wise (Department-wise) student count
+    public Map<String, Integer> getBranchWiseCount() throws Exception {
+        Connection conn = getConnection();
+        String sql = "SELECT dept, COUNT(*) AS total FROM student GROUP BY dept";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+
+        Map<String, Integer> branchCount = new HashMap<>();
+        while (rs.next()) {
+            branchCount.put(rs.getString("dept"), rs.getInt("total"));
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+        return branchCount;
     }
 }
