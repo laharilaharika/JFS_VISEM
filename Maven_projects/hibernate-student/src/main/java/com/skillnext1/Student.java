@@ -1,11 +1,6 @@
-package com.skillnext1;
+package com.studentapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "student")
@@ -13,47 +8,42 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int studentId;
 
-    @Column(name = "name")
-    private String name;
+    private String studentName;
+    private String department;
+    private int semester;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "marks")
-    private int marks;
-
-    public Student() {
-        // required by Hibernate
+    // Getters and Setters
+    public int getStudentId() {
+        return studentId;
     }
 
-    // getters and setters
-    public int getId() {
-        return id;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
-    public String getName() {
-        return name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public int getMarks() {
-        return marks;
+    public int getSemester() {
+        return semester;
     }
 
-    public void setMarks(int marks) {
-        this.marks = marks;
+    public void setSemester(int semester) {
+        this.semester = semester;
     }
 }
